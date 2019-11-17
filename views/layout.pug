@@ -1,0 +1,47 @@
+// Mixins
+mixin media(title, body, image)
+   .media.mb-4
+     img.mr-3(src=image alt=title)
+     .media-body.d-flex.flex-row.align-self-stretch.align-items-center
+       .m
+          h6.mb-0=title
+          p.p-0.text-muted=body
+       .media-actions.ml-auto
+         a.btn.btn-sm
+          i.fas.fa-plus
+          
+
+
+doctype html
+html
+  head
+    meta(charset='utf-8')
+    meta(http-equiv='X-UA-Compatible', content='IE=edge')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    meta(name='theme-color' content='#4DA5F4')
+    meta(name='csrf-token', content=_csrf)
+    title #{title} - App
+    //link(rel='shortcut icon', href='/favicon.png')
+    link(rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous")
+    link(rel='stylesheet' href='/style.css')
+    // import the webpage's client-side javascript file
+    script(src='/client.js' defer='')
+    block head
+
+  body
+    include partials/header
+
+    .container
+      include partials/flash
+      block content
+
+    include partials/footer
+
+    script(src='https://unpkg.com/jquery@3.4.1/dist/jquery.js')
+    script(src='https://unpkg.com/popper.js@1.15.0/dist/umd/popper.min.js')
+    script(src='https://unpkg.com/bootstrap@4.3.1/dist/js/bootstrap.js')
+    //script(src='/js/main.js')
+
+    // Google Analytics: change UA-XXXXX-X to be your site's ID
+    script(src="//instant.page/2.0.0" type="module" defer integrity="sha384-D7B5eODAUd397+f4zNFAVlnDNDtO1ppV8rPnfygILQXhqu3cUndgHvlcJR2Bhig8")
+    

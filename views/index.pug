@@ -1,0 +1,10 @@
+extends layout
+
+block content
+  h1=title
+  p.lead=body
+  if epochs
+    ul
+      each val in epochs
+        li
+          a(href=`/browse/${val.id}`)=val.name
