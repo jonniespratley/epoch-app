@@ -12,10 +12,15 @@ const mongoose = require("mongoose");
 const passport = require("passport");
 const expressStatusMonitor = require("express-status-monitor");
 const errorHandler = require("errorhandler");
-const { ApolloServer } = require("apollo-server-express");
+const {
+  ApolloServer
+} = require("apollo-server-express");
 const flash = require("express-flash");
 
-const { cache, cacheManager } = require("./src/cacheManager");
+const {
+  cache,
+  cacheManager
+} = require("./src/cacheManager");
 
 var pino = require("express-pino-logger")({
   name: 'epochs-app',
@@ -31,7 +36,9 @@ require("dotenv").config();
  * API keys and Passport configuration.
  */
 const passportConfig = require("./config/passport");
-const { isAuthenticated } = passportConfig;
+const {
+  isAuthenticated
+} = passportConfig;
 
 // Local module imports
 
@@ -45,7 +52,7 @@ const routes = require("./src/routes");
 const {
   AppController,
   AuthController,
-  
+
   UserController
 } = require("./src/controllers");
 
@@ -75,7 +82,9 @@ app.set("version", process.env.APP_VERSION);
 app.locals.name = app.get("name");
 app.locals.version = app.get("version");
 
-require("express-debug")(app, { depth: 3 });
+require("express-debug")(app, {
+  depth: 6
+});
 
 app.use(bodyParser.json());
 app.use(
@@ -90,9 +99,11 @@ async function run() {
 
   try {
     dbClient = db.connect(DB_HOST);
-    
-    sessionStore = new MongoStore({ mongooseConnection: db.connection });
-    
+
+    sessionStore = new MongoStore({
+      mongooseConnection: db.connection
+    });
+
   } catch (err) {
     console.log(err);
   }
@@ -143,9 +154,9 @@ async function run() {
     console.log("req.locals", req.locals);
     next();
   });
-  
-  
-  
+
+
+
   // we've started you off with Express,
   // but feel free to use whatever libs or frameworks you'd like through `package.json`.
   // Apollo Server setup
@@ -166,12 +177,15 @@ async function run() {
   });
 
   // Apply the Apollo GraphQL middleware and set the path to /api
-  server.applyMiddleware({ app, path: "/graphql" });
-  
-  
+  server.applyMiddleware({
+    app,
+    path: "/graphql"
+  });
+
+
   routes(app);
-  
-  
+
+
 
   /**
   Mount All Rotes
@@ -188,16 +202,19 @@ async function run() {
   app.post("/signup", UserController.postSignup);
   app.get("/me", passportConfig.isAuthenticated, (req, res) => {
     console.log(req.user);
-    const { user, session } = req;
+    const {
+      user,
+      session
+    } = req;
     res.send({
       user,
       session
     });
   });
 
-  
-  
- 
+
+
+
   //Github Login
   if (process.env.GITHUB_ID) {
     app.get("/auth/github", passport.authenticate("github"));
@@ -227,12 +244,12 @@ async function run() {
   }
 
 
- 
+
 
 
   if (app.get("env") === "development") {
-    app.use(function(err, req, res) {
-      res.status(err.status || 500);
+    app.use(function (err, req, res) {
+      //res.status(err.status || 500);
       res.render("error", {
         message: err.message,
         error: err
@@ -242,15 +259,15 @@ async function run() {
 
   // production error handler
   // no stacktraces leaked to user
-  app.use(function(err, req, res) {
-    res.status(err.status || 500);
+  app.use(function (err, req, res) {
+    //res.status(err.status || 500);
     res.render("error", {
       message: err.message,
       error: {}
     });
   });
-  
-  
+
+
   function checkLoginSignup(req, res, next) {
     console.log('Checking and redirect', req.url, req.path);
     // After successful login, redirect back to the intended page
@@ -261,30 +278,30 @@ async function run() {
       !req.path.match(/^\/auth/) &&
       !req.path.match(/\./)
     ) {
-      
-      
+
+
       req.session.returnTo = req.originalUrl;
     } else if (
       req.user &&
-      (req.path === "/account" 
-       || req.path.match(/^\/api/)
-      || req.path.match(/^\/browse/))
+      (req.path === "/account" ||
+        req.path.match(/^\/api/) ||
+        req.path.match(/^\/browse/))
     ) {
       req.session.returnTo = req.originalUrl;
     }
     next();
   }
-   //app.use();
+  //app.use();
 
-  
-  
-  
-  
-  
+
+
+
+
+
 
   // listen for requests :)
-  const listener = app.listen(port, function() {
-    console.log(`Your app is listening on port ${listener.address().port}`);
+  const listener = app.listen(port, function () {
+    console.log(`Your app is listening on port ${listener.address().port}`, listener.address());
     console.log(
       `GraphQL Server running at http://localhost:${port}${server.graphqlPath}`
     );

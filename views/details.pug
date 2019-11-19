@@ -1,16 +1,13 @@
 extends layout
 
 block content
-  .navbar.bg-dark.navbar-dark
-    .container
-      .navbar-brand Details
   .row.details.my-3
     .col-12
       .details-header
         .media-list
-          +media(`${epoch.name}`, 'Artist', 'https://i.scdn.co/image/ab67616d0000b27334bf16d92ae11f8d3eadf295') 
+          +media(`${epoch.name}`, `${epoch.user.name}`, `${epoch.image}`) 
         .line
-        p This is the details body.
+        p=epoch.body
         .line
       
       .d-flex.justify-content-around
@@ -24,5 +21,5 @@ block content
       .details-body
         .line
         .media-list.media-list--sm
-          each val in [1, 2, 3, 4, 5]
-            +media('Title', 'Artist', 'https://i.scdn.co/image/ab67616d0000b27334bf16d92ae11f8d3eadf295') 
+          each track in epoch.tracks
+            +media(track.name, ``, 'https://i.scdn.co/image/ab67616d0000b27334bf16d92ae11f8d3eadf295') 

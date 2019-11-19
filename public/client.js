@@ -1,91 +1,133 @@
 // client-side js
 // run by the browser each time your view template is loaded
 
-console.log('hello world :o');
 
-/*
-// our default array of dreams
-const dreams = [
-  'Find and count some sheep',
-  'Climb a really tall mountain',
-  'Wash the dishes'
-];
 
-// define variables that reference elements on our page
-const dreamsList = document.getElementById('dreams');
-const dreamsForm = document.forms[0];
-const dreamInput = dreamsForm.elements['dream'];
+document.addEventListener('DOMContentLoaded', () => {
+  window.myApp = (function () {
 
-// a helper function that creates a list item for a given dream
-const appendNewDream = function(dream) {
-  const newListItem = document.createElement('li');
-  newListItem.innerHTML = dream;
-  dreamsList.appendChild(newListItem);
-}
 
-// iterate through every dream and add it to our page
-dreams.forEach( function(dream) {
-  appendNewDream(dream);
-});
+    function postData(url, data) {
+      return fetch(url, {
+        origin: 'same-site',
+        credentials: 'include',
+        method: 'POST',
+        mode: 'same-origin',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
 
-// listen for the form to be submitted and add a new dream when it is
-dreamsForm.onsubmit = function(event) {
-  // stop our form submission from refreshing the page
-  event.preventDefault();
+      }).then(resp => resp.json());
+    }
 
-  // get dream value and add it to the list
-  dreams.push(dreamInput.value);
-  appendNewDream(dreamInput.value);
 
-  // reset form 
-  dreamInput.value = '';
-  dreamInput.focus();
-};
+    function getData(url) {
+      return fetch(url, {
+        origin: 'same-site',
+        credentials: 'include',
+        method: 'GET',
+        mode: 'same-origin',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        }
 
-*/
-const defaultQuery = `
-# Write your query or mutation here
-query searchSpotify($q:String){
-  search(q:$q){
-    tracks{
-      items{
-        name
-        id
-        album{
-          images{
-            url
+      }).then(resp => resp.json());
+    }
+
+
+    const defaultQuery2 = `
+    # Write your query or mutation here
+    query searchSpotify($q:String){
+      search(q:$q){
+        tracks{
+          items{
+            name
+            id
+            album{
+              images{
+                url
+              }
+            }
           }
         }
       }
     }
-  }
-}
-`;
-
-function graphqlQuery({variables, operationName, query = defaultQuery}){
-  return fetch(`/graphql`, {
-  	credentials:"include",
-    method: 'POST',
-  	mode: 'cors',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      variables, operationName, query
-    })
-	}).then(resp => resp.json());
-}
+    `;
 
 
-const myApp = {
-  methods: {
-    graphqlQuery,
-    search(q){
-      return graphqlQuery({
-        variables: {q},
-        operationName: 'searchSpotify'
-      })
+    function graphqlQuery({
+      variables,
+      operationName,
+      query = defaultQuery2
+    }) {
+      return fetch(`/graphql`, {
+        credentials: "include",
+        method: 'POST',
+        mode: 'cors',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          variables,
+          operationName,
+          query
+        })
+      }).then(resp => resp.json());
     }
-  }
-};
-window.myApp = myApp;
+
+
+
+
+    const templates = {
+      listItem(data) {
+        return `<div class="media mb-4" data-id="${data.id}">
+    <img class="mr-3" src="${data.album.images[0].url}" alt="Title">
+    <div class="media-body d-flex flex-row align-self-stretch align-items-center">
+    <div class="m">
+      <h6 class="mb-0">${data.name}</h6>
+      <p class="p-0 text-muted">${data.id}</p>
+    </div>
+      <div class="media-actions ml-auto">
+        <a class="btn btn-sm"><i class="fas fa-plus"></i></a>
+      </div></div>
+    </div>`;
+      }
+    }
+
+
+    const searchForm = document.querySelector('#searchForm')
+    const searchInput = document.querySelector('#searchInput')
+    const searchResults = document.querySelector('#searchResults')
+
+    const app = {
+      templates,
+      getData,
+      postData,
+      elements: {
+        searchForm,
+        searchInput,
+        searchResults
+      },
+      methods: {
+        graphqlQuery,
+        search(q) {
+          return graphqlQuery({
+            variables: {
+              q
+            },
+            operationName: 'searchSpotify'
+          }).then(resp => resp.data.search);
+        },
+        init() {
+          this.elements.searchInput.addEventListener('input', (e) => {
+            console.log('Search', e.target.value);
+          });
+        }
+      }
+    };
+    return app;
+  })();
+})

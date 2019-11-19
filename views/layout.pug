@@ -1,15 +1,29 @@
 // Mixins
-mixin media(title, body, image)
+mixin media(title, body, image, href)
    .media.mb-4
      img.mr-3(src=image alt=title)
      .media-body.d-flex.flex-row.align-self-stretch.align-items-center
        .m
-          h6.mb-0=title
+          a(href=href)
+            h6.mb-0=title
           p.p-0.text-muted=body
        .media-actions.ml-auto
          a.btn.btn-sm
           i.fas.fa-plus
           
+mixin modal(id, title, body)
+  .modal(id=id tabindex='-1' role='dialog')
+    .modal-dialog(role='document')
+      .modal-content
+        .modal-header
+          h5.modal-title= title
+          button.close(type='button' data-dismiss='modal' aria-label='Close')
+            span(aria-hidden='true') &times;
+        .modal-body
+          p= body
+        .modal-footer
+          button.btn.btn-secondary(type='button' data-dismiss='modal') Close
+          button.btn.btn-primary(type='button') Save changes
 
 
 doctype html
@@ -21,7 +35,7 @@ html
     meta(name='theme-color' content='#4DA5F4')
     meta(name='csrf-token', content=_csrf)
     title #{title} - App
-    //link(rel='shortcut icon', href='/favicon.png')
+    link(rel='shortcut icon', href='/favicon.png')
     link(rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous")
     link(rel='stylesheet' href='/style.css')
     // import the webpage's client-side javascript file

@@ -5,22 +5,20 @@ block content
     .container
       .navbar-brand Playlists
   .container
-    .row.my-3
+    form#searchForm.row.my-3
       .input-group.flex-nowrap.col-12
         .input-group-prepend
           span#addon-wrapping.input-group-text Q
-        input.form-control(type='text' placeholder='Search...' aria-label='Search' aria-describedby='addon-wrapping')
-
+        input#searchInput.form-control(type='search' placeholder='Search...' aria-label='Search' aria-describedby='addon-wrapping')
+    
     .row
       .col-12
-        for epoch in epochs
-          li
-            a(href=`/browse/${epoch.id}`)=epoch.name
-
+        ul#searchResults.media-list.media-list--sm
+    
+    .row
       .media-list.col-12
-
-        each val in [1, 2, 3]
-          +media('Media 1', 'Album', 'https://i.scdn.co/image/ab67616d0000b27334bf16d92ae11f8d3eadf295') 
+        each epoch in epochs
+          +media(`${epoch.name}`, `${epoch.tracks.length}`, `${epoch.image}`, `/browse/${epoch.id}`) 
 
 
     

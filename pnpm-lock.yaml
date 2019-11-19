@@ -2,6 +2,7 @@ dependencies:
   apollo-datasource-rest: 0.6.6_graphql@14.5.8
   apollo-server-express: 2.9.9_graphql@14.5.8
   bcrypt: 3.0.6
+  body-parser: 1.19.0
   cache-manager: 2.10.1
   cache-manager-mongoose: 0.0.4
   connect-mongo: 2.0.3
@@ -3513,38 +3514,39 @@ packages:
     resolution:
       integrity: sha512-kQz39uonEjEESwh+qCi83kcC3rZJGh4mrZW7xjkSQYXkq//JZHTtKo+6yuVloTgMtzsIWOJrjIrKvk/dqm0L5g==
 specifiers:
-  apollo-datasource-rest: ^0.6.4
-  apollo-server-express: ^2.9.1
+  apollo-datasource-rest: ^0.6.6
+  apollo-server-express: ^2.9.9
   bcrypt: ^3.0.6
-  cache-manager: ^2.10.0
+  body-parser: ^1.19.0
+  cache-manager: ^2.10.1
   cache-manager-mongoose: ^0.0.4
   connect-mongo: ^2.0.3
   crypto: ^1.0.1
   dataloader: ^1.4.0
-  dotenv: ^8.1.0
+  dotenv: ^8.2.0
   errorhandler: ^1.5.1
-  express: ^4.16.4
+  express: ^4.17.1
   express-debug: ^1.1.1
   express-flash: ^0.0.2
   express-pino-logger: ^4.0.0
   express-request-proxy: ^2.2.2
-  express-session: ^1.16.1
-  express-status-monitor: ^1.2.5
-  graphql: ^14.5.3
+  express-session: ^1.17.0
+  express-status-monitor: ^1.2.7
+  graphql: ^14.5.8
   lodash: ^4.17.15
-  mailchecker: ^3.2.35
+  mailchecker: ^3.3.2
   moment: ^2.24.0
-  mongo-mock: ^3.7.1
-  mongoose: ^5.6.11
-  nodemailer: ^6.3.0
+  mongo-mock: ^3.8.1
+  mongoose: ^5.7.11
+  nodemailer: ^6.3.1
   passport: ^0.4.0
   passport-github: ^1.1.0
   passport-local: ^1.0.0
   passport-oauth: ^1.0.0
   passport-oauth2-refresh: ^1.1.0
-  pino: ^5.13.2
-  pino-pretty: ^3.2.1
-  pug: ^2.0.3
+  pino: ^5.13.6
+  pino-pretty: ^3.4.0
+  pug: ^2.0.4
   request: ^2.88.0
-  request-promise: ^4.2.4
+  request-promise: ^4.2.5
   validator: ^11.1.0
