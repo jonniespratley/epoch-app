@@ -9,7 +9,7 @@
   "dependencies": {
     "apollo-datasource-rest": "^0.6.6",
     "apollo-server-express": "^2.9.9",
-    "bcrypt": "^3.0.6",
+    "bcrypt": "^5.0.0",
     "body-parser": "^1.19.0",
     "cache-manager": "^2.10.1",
     "cache-manager-mongoose": "^0.0.4",
